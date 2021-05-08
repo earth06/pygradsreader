@@ -33,7 +33,7 @@ def get_gscolors():
         [240,130,40,1],#orange
         [250,60,60,1], #red
         [240,0,130,1]  #magenta
-        ],dtype=np.float)
+        ],dtype=np.float32)
     gscolors[:,:3]/=256 #RGBを0-1の範囲に変換
     return gscolors
 
@@ -47,11 +47,25 @@ def get_jmacolors():
         [255,153,0,1],#orange
         [255,40,0,1],#red
         [180,0,104,1]#magenta
-    ],dtype=np.float)
+    ],dtype=np.float32)
     jmacolors[:,:3] /=256
     return jmacolors
+def get_jwacolors():
+    jwacolors=np.array([
+        [0,255,253,1],#aqua
+        [0,0,226,1],#blue
+        [28,150,0,1],#green
+        [254,255,5,1],#yellow
+        [254,255,5,1],#orange
+        [253,3,242,1],#pink
+        [255,0,0],#red
+    ],dtype=np.float32)
+
 def get_jmalevels():
     return [0,1,5,10,20,30,50,80]
+
+def get_jwalevels():
+    return [0,1,5,10,15,25,30,50]
 
 def get_gscmap():
     gscolors=get_gscolors()
@@ -63,6 +77,11 @@ def get_jmacmap():
     jmacmap=LinearSegmentedColormap.from_list("jmacmap",colors=jmacolors)
     return jmacmap
 
+def get_jwacmap():
+    jwacolors=get_jwacolors()
+    jwacmap=LinearSegmentedColormap.from_list("jwacmap",colors=jwacolors)
+    return jwacmap
+
 def make_cmap(colors,cname="custom"):
-    cmap=LinearSegmentedColormap.from_list("cname",colors=colors)
+    cmap=LinearSegmentedColormap.from_list(cname,colors=colors)
     return cmap
