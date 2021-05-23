@@ -1,4 +1,5 @@
 from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.colors import BoundaryNorm
 import numpy as np
 """
 ex)普通のカラーマップとして扱う
@@ -50,6 +51,44 @@ def get_jmacolors():
     ],dtype=np.float32)
     jmacolors[:,:3] /=256
     return jmacolors
+
+def get_jmacmap2():
+    l1,l2,l3,l4,l5,l6,l7,l8=np.linspace(0,1,8)
+    l4=0.5
+    cdict={
+    "red":[[l1,0.9453125,0.9453125],
+            [l2,0.625,0.625 ],
+            [l3,0.12890625,0.12890625],
+            [l4,0,0.9765625],#
+            [l5,0.9765625,0.9765625],
+            [l6,0.99609375,0.99609375],
+            [l7,0.99609375,0.99609375],
+            [l8,0.703125,0.703125]]
+    ,
+    
+    "green":[[l1,0.9453125,0.9453125],
+            [l2,0.8203125,0.8203125],
+            [l3,0.546875,0.546875 ],
+            [l4,0.25390625,0.95703125],#
+            [l5,0.95703125,0.95703125],
+            [l6,0.59765625,0.59765625],
+            [l7,0.15625 ,0.15625],
+            [l8, 0. ,0 ]]
+        
+    ,
+    "blue":[[l1,0.9453125,0.9453125 ],
+            [l2,0.99609375,0.99609375],
+            [l3,0.99609375,0.99609375],
+            [l4,0.99609375,0],#
+            [l5,0.   ,0],
+            [l6,0.   ,0],
+            [l7,0,0],
+            [l8,0.40625,0.40625 ]]
+    }
+    cmap=LinearSegmentedColormap("jma",segmentdata=cdict,N=256)
+    return cmap
+
+
 def get_jwacolors():
     jwacolors=np.array([
         [0,255,253,1],#aqua
@@ -58,8 +97,10 @@ def get_jwacolors():
         [254,255,5,1],#yellow
         [254,255,5,1],#orange
         [253,3,242,1],#pink
-        [255,0,0],#red
+        [255,0,0,1],#red
     ],dtype=np.float32)
+    jwacolors[:,:3] /=256
+    return jwacolors
 
 def get_jmalevels():
     return [0,1,5,10,20,30,50,80]
@@ -85,3 +126,6 @@ def get_jwacmap():
 def make_cmap(colors,cname="custom"):
     cmap=LinearSegmentedColormap.from_list(cname,colors=colors)
     return cmap
+
+def get_norm(levels,ncolors=256,extend="max"):
+    return BoundaryNorm(levels,ncolors=ncolors,extend=extend)
